@@ -1,0 +1,65 @@
+const controller = require('lib/wiring/controller')
+const models = require('app/models')
+const Pokemon = models.pokemon
+
+const setUser = require('./concerns/set-current-user')
+const authenticate = require('./concerns/authenticate')
+const setModel = require('./concerns/set-mongoose-model')
+
+const index = (req, res, next) => {
+  Pokemon.find(req.query)
+    .then(pokemon => res.json({ pokemon }))
+    .catch(err => next(err))
+}
+
+const show = (req, res, next) => {
+  Pokemon.findById(req.params.id)
+    .then(pokemon => {
+      console.log('this is pokemon ', pokemon)
+      return pokemon
+    })
+    .then(pokemon => res.json({
+      pokemon: pokemon.toJSON({ virtuals: true, user: req.user })
+    }))
+    .catch(next)
+}
+
+const create = (req, res, next) => {
+  const pokemon = Object.assign(req.body.pokemon, {
+    _owner: req.user._id
+  })
+  console.log('this is Pokemon ', Pokemon)
+  Pokemon.create(pokemon)
+  .then(pokemon =>
+    res.status(201)
+      .json({
+        pokemon: pokemon.toJSON({ virtuals: true, user: req.user })
+      }))
+    .catch(next)
+}
+
+const update = (req, res, next) => {
+  delete req.body._owner  // disallow owner reassignment.
+  req.pokemon.update(req.body.pokemon)
+    .then(() => res.sendStatus(204))
+    .catch(next)
+}
+
+const destroy = (req, res, next) => {
+  req.pokemon.remove()
+    .then(() => res.sendStatus(204))
+    .catch(next)
+}
+
+module.exports = controller({
+  index,
+  show,
+  create,
+  update,
+  destroy
+}, { before: [
+  { method: setUser, only: ['show', 'index'] },
+  { method: authenticate, except: ['index', 'show'] },
+  { method: setModel(Pokemon), only: ['show'] },
+  { method: setModel(Pokemon, { forUser: true }), only: ['update', 'destroy'] }
+] })
