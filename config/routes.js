@@ -15,6 +15,7 @@ module.exports = require('lib/wiring/routes')
 .post('/sign-in', 'users#signin')
 .delete('/sign-out/:id', 'users#signout')
 .patch('/change-password/:id', 'users#changepw')
+.get('/search/:url_path/:name', 'pokemon#search')
 .resources('users', { only: ['index', 'show'] })
 .resources('pokemon', { except: ['new', 'edit'] })
 

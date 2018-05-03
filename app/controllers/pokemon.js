@@ -1,11 +1,23 @@
 const controller = require('lib/wiring/controller')
 const models = require('app/models')
 const Pokemon = models.pokemon
+const Pokedex = require('pokedex-promise-v2')
+const P = new Pokedex()
 
 const setUser = require('./concerns/set-current-user')
 const authenticate = require('./concerns/authenticate')
 const setModel = require('./concerns/set-mongoose-model')
 
+const search = (req, res, next) => {
+  console.log('this is req.data.path', req.params)
+  P.resource(`https://pokeapi.co/api/v2/${req.params.url_path}/${req.params.name}/`)
+    .then(query => {
+      console.log(query)
+      return query
+      })
+    .then(query => res.json({ query }))
+    .catch(err => next(err))
+}
 const index = (req, res, next) => {
   Pokemon.find(req.query)
     .then(pokemon => res.json({ pokemon }))
@@ -56,10 +68,11 @@ module.exports = controller({
   show,
   create,
   update,
-  destroy
+  destroy,
+  search
 }, { before: [
   { method: setUser, only: ['show', 'index'] },
-  { method: authenticate, except: ['index', 'show'] },
+  { method: authenticate, except: ['index', 'show', 'search'] },
   { method: setModel(Pokemon), only: ['show'] },
   { method: setModel(Pokemon, { forUser: true }), only: ['update', 'destroy'] }
 ] })
