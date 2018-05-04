@@ -11,7 +11,10 @@ curl "${API}${URL_PATH}/${ID}" \
   --data '{
     "pokemon": {
       "name": "'"${NAME}"'",
-      "order": "'"${ORDER}"'"
+      "order": "'"${ORDER}"'",
+      "evs": {
+        "hp": "'"${HP}"'"
+      }
     }
   }'
 
