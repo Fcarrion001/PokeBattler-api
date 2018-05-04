@@ -3,6 +3,7 @@
 const mongoose = require('mongoose')
 const evSchema = require('./ev')
 const ivSchema = require('./iv')
+const abilitySchema = require('./ability')
 
 const pokemonSchema = new mongoose.Schema({
   name: {
@@ -13,6 +14,7 @@ const pokemonSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  abilities: [abilitySchema],
   evs: {
     type: evSchema,
     default: evSchema
