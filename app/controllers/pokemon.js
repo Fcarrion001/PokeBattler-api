@@ -10,6 +10,8 @@ const setModel = require('./concerns/set-mongoose-model')
 
 const search = (req, res, next) => {
   console.log('this is req.data.path', req.params)
+  // pass in the path and the name as params
+  // this allows this function to handle all pokeapi calls
   P.resource(`https://pokeapi.co/api/v2/${req.params.url_path}/${req.params.name}/`)
     .then(query => {
       console.log(query)
