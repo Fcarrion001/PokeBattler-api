@@ -14,6 +14,9 @@ curl "${API}${URL_PATH}/${ID}" \
       "order": "'"${ORDER}"'",
       "evs": {
         "hp": "'"${HP}"'"
+      },
+      "ivs": {
+        "atk": "'"${ATK}"'"
       }
     }
   }'
