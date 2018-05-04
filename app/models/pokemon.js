@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose')
 const evSchema = require('./ev')
+const ivSchema = require('./iv')
 
 const pokemonSchema = new mongoose.Schema({
   name: {
@@ -15,6 +16,10 @@ const pokemonSchema = new mongoose.Schema({
   evs: {
     type: evSchema,
     default: evSchema
+  },
+  ivs: {
+    type: ivSchema,
+    default: ivSchema
   },
   _owner: {
     type: mongoose.Schema.Types.ObjectId,
