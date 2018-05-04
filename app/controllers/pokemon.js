@@ -40,8 +40,11 @@ const create = (req, res, next) => {
   const pokemon = Object.assign(req.body.pokemon, {
     _owner: req.user._id
   })
-  console.log('this is Pokemon ', Pokemon)
   Pokemon.create(pokemon)
+  .then((pokemon) => {
+    console.log('this is pokemon ', pokemon)
+    return pokemon
+  })
   .then(pokemon =>
     res.status(201)
       .json({

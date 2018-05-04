@@ -1,6 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const evSchema = require('./ev')
 
 const pokemonSchema = new mongoose.Schema({
   name: {
@@ -10,6 +11,10 @@ const pokemonSchema = new mongoose.Schema({
   order: {
     type: Number,
     required: true
+  },
+  evs: {
+    type: evSchema,
+    default: evSchema
   },
   _owner: {
     type: mongoose.Schema.Types.ObjectId,
