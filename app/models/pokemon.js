@@ -1,12 +1,20 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const baseStatSchema = require('./base-stat')
 const evSchema = require('./ev')
 const ivSchema = require('./iv')
 const abilitySchema = require('./ability')
+const movepoolSchema = require('./movepool')
+const typeSchema = require('./type')
+const natureSchema = require('./nature')
 
 const pokemonSchema = new mongoose.Schema({
   name: {
+    type: String,
+    required: true
+  },
+  sprite: {
     type: String,
     required: true
   },
@@ -14,7 +22,13 @@ const pokemonSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  types: [typeSchema],
   abilities: [abilitySchema],
+_nature: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
+  },
+  basestats: baseStatSchema,
   evs: {
     type: evSchema,
     default: evSchema
@@ -23,6 +37,7 @@ const pokemonSchema = new mongoose.Schema({
     type: ivSchema,
     default: ivSchema
   },
+  movepool: [movepoolSchema],
   _owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
