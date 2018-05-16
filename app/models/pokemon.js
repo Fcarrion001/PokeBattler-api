@@ -26,6 +26,8 @@ const pokemonSchema = new mongoose.Schema({
   abilities: [abilitySchema],
 _nature: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'Nature',
+    default: '5afcb114355fd56e55d85bad',
     required: true
   },
   basestats: baseStatSchema,
