@@ -18,5 +18,6 @@ module.exports = require('lib/wiring/routes')
 .get('/search/:url_path/:name', 'pokemon#search')
 .resources('users', { only: ['index', 'show'] })
 .resources('pokemon', { except: ['new', 'edit'] })
+.resources('natures', { only: ['index', 'create'] })
 
 // all routes created
