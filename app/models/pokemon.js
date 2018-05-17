@@ -8,6 +8,7 @@ const abilitySchema = require('./ability')
 const movepoolSchema = require('./movepool')
 const typeSchema = require('./type')
 const natureSchema = require('./nature')
+const itemSchema = require('./item')
 
 const pokemonSchema = new mongoose.Schema({
   name: {
@@ -39,6 +40,7 @@ _nature: {
     type: ivSchema,
     default: ivSchema
   },
+  item: itemSchema,
   movepool: [movepoolSchema],
   _owner: {
     type: mongoose.Schema.Types.ObjectId,
